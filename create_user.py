@@ -187,9 +187,9 @@ def string_test(s, is_email=False):
 def main():
 
     creds_help = "\n".join(("This requires a .userify_creds.ini file in your home directory,\nwith the following format:\n\n",
-        "[default]",
-        "hostname=api.userify.com",
-        "username=USERNAME",
+        "[default]\n",
+        "hostname=api.userify.com\n",
+        "username=USERNAME\n",
         "password=PASSWORD",
     ))
 
@@ -247,18 +247,7 @@ def main():
     # create API object
     api = API(host=CREDS["hostname"])
 
-    # check args.username and args.email
-    args.username = string_test(args.username)
-    args.email = string_test(args.email, is_email=True)
-    if not args.username or not args.email:
-        parser.print_help()
-        sys.exit(1)
-
-    # generate long random password if not provided:
-    if not args.password or len(args.password) < 8:
-        args.password = ''.join(random.choice(string.letters) for i in range(64))
-
-    # login and verify that getting profile works for the user in ~/.userify_creds.ini
+    # login and verify that getting profile works for your user account (in ~/.userify_creds.ini)
     api.login(CREDS["username"], CREDS["password"])
     response, this_user_account = api.get("/profile", handle_error=False)
     if response.status == 412:
@@ -276,13 +265,25 @@ def main():
             print ("Please confirm your username and password in ~/.userify_creds.ini")
             sys.exit(1)
 
+    # list companies if requested
     if args.list_companies:
         if this_user_account["companies"]:
             print ("Available company IDs:\n%s" % "\n".join(
                 this_user_account["companies"]))
         else:
             print "User %s has no companies." % args.username
+        sys.exit(0)
+
+    # check args.username and args.email
+    args.username = string_test(args.username)
+    args.email = string_test(args.email, is_email=True)
+    if not args.username or not args.email:
+        # parser.print_help()
         sys.exit(1)
+
+    # generate long random password if not provided:
+    if not args.password or len(args.password) < 8:
+        args.password = ''.join(random.choice(string.letters) for i in range(64))
 
     if not args.invite_only:
         # create user account.
