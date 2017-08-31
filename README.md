@@ -4,7 +4,7 @@ These are examples of how to use the Userify API. Some of them are designed to b
 
 Please also see:
 
-    *   https://github.com/userify/signup
+*   https://github.com/userify/signup
 
 
 # Authentication
