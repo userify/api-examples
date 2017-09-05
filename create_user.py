@@ -242,7 +242,7 @@ def main():
         sys.exit(1)
 
     if "hostname" not in CREDS:
-        CREDS["hostname"] = "dashboard.userify.com"
+        CREDS["hostname"] = "api.userify.com"
 
     # create API object
     api = API(host=CREDS["hostname"])

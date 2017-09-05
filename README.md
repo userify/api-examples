@@ -21,7 +21,7 @@ Please create a service user that is a company admin with a very strong password
     username=company_service_username
     password=a_really_long_password
     # optional hostname, if you're using a self-hosted edition:
-    hostname=dashboard.userify.com
+    hostname=api.userify.com
 
     EOF
 
